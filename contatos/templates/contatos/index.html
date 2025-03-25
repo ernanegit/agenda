@@ -1,0 +1,73 @@
+{% extends 'contatos/base.html' %}
+
+{% block content %}
+<h1 class="mb-4">Meus Contatos</h1>
+
+{% if contatos %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Sobrenome</th>
+                <th>Telefone</th>
+                <th>Categoria</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contato in contatos %}
+                <tr>
+                    <td>{{ contato.id }}</td>
+                    <td>
+                        <a href="{% url 'ver_contato' contato.id %}">{{ contato.nome }}</a>
+                    </td>
+                    <td>{{ contato.sobrenome }}</td>
+                    <td>{{ contato.telefone }}</td>
+                    <td>{{ contato.categoria }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Paginação -->
+    {% if contatos.has_other_pages %}
+    <nav aria-label="Navegação de página">
+        <ul class="pagination">
+            {% if contatos.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ contatos.previous_page_number }}">Anterior</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Anterior</a>
+                </li>
+            {% endif %}
+
+            {% for pagina in contatos.paginator.page_range %}
+                {% if contatos.number == pagina %}
+                    <li class="page-item active">
+                        <a class="page-link" href="?page={{ pagina }}">{{pagina}}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ pagina }}">{{pagina}}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if contatos.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ contatos.next_page_number }}">Próxima</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Próxima</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+{% else %}
+    <p class="alert alert-warning">Nenhum contato encontrado.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'contatos/base.html' %}
+
+{% block title %}{{ contato.nome }} {{ contato.sobrenome }} | Agenda{% endblock %}
+
+{% block content %}
+<h1 class="mt-4 mb-3">{{ contato.nome }} {{ contato.sobrenome }}</h1>
+<div class="card">
+    <div class="card-body">
+        <p class="card-text"><strong>ID:</strong> {{ contato.id }}</p>
+        <p class="card-text"><strong>Telefone:</strong> {{ contato.telefone }}</p>
+        <p class="card-text"><strong>E-mail:</strong> {{ contato.email }}</p>
+        <p class="card-text"><strong>Data de criação:</strong> {{ contato.data_criacao|date:'d/m/Y H:i:s' }}</p>
+        <p class="card-text"><strong>Categoria:</strong> {{ contato.categoria }}</p>
+        <p class="card-text"><strong>Descrição:</strong> {{ contato.descricao }}</p>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a href="{% url 'index' %}" class="btn btn-secondary">Voltar</a>
+    <a href="{% url 'editar_contato' contato.id %}" class="btn btn-primary">Editar</a>
+    <a href="{% url 'deletar_contato' contato.id %}" class="btn btn-danger">Excluir</a>
+</div>
+{% endblock %}
